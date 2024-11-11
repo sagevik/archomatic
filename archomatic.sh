@@ -215,24 +215,24 @@ install_yay() {
 
 install_audio_mixer() {
     msg "Installing pavucontrol"
-    yay -S pavucontrol-gtk3
+    yay -S pavucontrol-gtk3 --noconfirm
 }
 
 install_jottacloud_cli() {
     msg "Installing Jottacloud-cli"
-    yay -S jotta-cli
+    yay -S jotta-cli --noconfirm
     run_jottad
     loginctl enable-linger $USER
 }
 
 install_brave_browser() {
     msg "Installing Brave browser"
-    yay -S brave-bin
+    yay -S brave-bin --noconfirm
 }
 
 install_joplin() {
     msg "Installing Joplin Desktop"
-    yay -S joplin-desktop
+    yay -S joplin-desktop --noconfirm
 }
 
 # -------------------------
@@ -246,8 +246,6 @@ main_install() {
     install_xorg_packages
 
     install_tlp
-
-    install_fonts
 
     install_utils_and_applications
 
@@ -275,6 +273,8 @@ main_install() {
     install_brave_browser
 
     install_joplin
+
+    install_fonts
 
 }
 
