@@ -104,6 +104,7 @@ install_utils_and_applications() {
             'nemo'
             'chromium'
             'gimp'
+            'less'
     )
 
     for PKG in "${PKGS[@]}"; do
@@ -202,6 +203,39 @@ install_touchpad_tap() {
     sudo ~/archomatic/./install_touchpad_conf.sh
 }
 
+# AUR stuff
+
+install_yay() {
+    msg "Installing yay aur helper"
+    cd ~/.config
+    git clone https://aur.archlinux.org/yay.git
+    cd ~/.config/yay
+    makepkg -si
+}
+
+install_audio_mixer() {
+    msg "Installing pavucontrol"
+    yay -S pavucontrol-gtk3
+}
+
+install_jottacloud_cli() {
+    msg "Installing Jottacloud-cli"
+    yay -S jotta-cli
+    run_jottad
+    loginctl enable-linger $USER
+}
+
+install_brave_browser() {
+    msg "Installing Brave browser"
+    yay -S brave-bin
+}
+
+install_joplin() {
+    msg "Installing Joplin Desktop"
+    yay -S joplin-desktop
+}
+
+# -------------------------
 main_install() {
     msg "Starting installation and configuration."
     sleep 2
@@ -230,6 +264,18 @@ main_install() {
     install_scripts
 
     install_touchpad_tap
+
+    # AUR stuff
+    install_yay
+
+    install_audio_mixer
+
+    install_jottacloud_cli
+
+    install_brave_browser
+
+    install_joplin
+
 }
 
 
