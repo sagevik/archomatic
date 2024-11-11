@@ -188,6 +188,13 @@ install_configs() {
     msg "Done"
 }
 
+install_scripts() {
+    msg "Installing scripts"
+    git clone https://github.com/sagevik/scripts.git
+    cd ~/scripts
+    sudo ./install.sh
+}
+
 main_install() {
     msg "Starting installation and configuration."
     sleep 2
@@ -212,6 +219,8 @@ main_install() {
     msg "Done"
 
     install_configs
+
+    install_scripts
 }
 
 
