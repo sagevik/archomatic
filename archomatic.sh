@@ -45,7 +45,7 @@ install_xorg_packages() {
 
     for PKG in "${PKGS[@]}"; do
         echo "Installing: ${PKG}"
-        sudo pacman -S "$PKG"
+        sudo pacman -S "$PKG" --noconfirm --needed
     done
 
     msg "Done!"
@@ -65,7 +65,7 @@ install_fonts() {
 
     for PKG in "${PKGS[@]}"; do
         echo "Installing: ${PKG}"
-        sudo pacman -S "$PKG"
+        sudo pacman -S "$PKG" --noconfirm --needed
     done
 
     msg "Done!"
@@ -106,7 +106,7 @@ install_utils_and_applications() {
 
     for PKG in "${PKGS[@]}"; do
         echo "Installing: ${PKG}"
-        sudo pacman -S "$PKG"
+        sudo pacman -S "$PKG" --noconfirm --needed
     done
 
     msg "Done!"
@@ -122,7 +122,7 @@ install_tlp() {
 
     for PKG in "${PKGS[@]}"; do
         echo "Installing: ${PKG}"
-        sudo pacman -Sy "$PKG"
+        sudo pacman -Sy "$PKG" --noconfirm --needed
     done
 
     msg "Done!"
@@ -176,8 +176,15 @@ install_slock() {
 install_configs() {
     msg "Installing configs"
     cd ~/
-    git clone https://github.con/sagevik/config.git
+    git clone https://github.com/sagevik/config.git
     cd ~/config
+    cp .bashrc ~/.bashrc
+    cp .bash_profile ~/.bash_profile
+    cp .inputrc ~/.inputrc
+    cp .xinitrc ~/.xinitrc
+    cd ~/config/.config
+    cp -r * ~/.config/
+    msg "Done"
 }
 
 main_install() {
