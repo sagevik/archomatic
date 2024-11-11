@@ -195,6 +195,18 @@ install_scripts() {
     sudo ./install.sh
 }
 
+install_touchpad_tap() {
+    msg "Configuring tap to click"
+sudo echo 'Section "InputClass"
+        Identifier "libinput touchpad catchall"
+        MatchIsTouchpad "on"
+        MatchDevicePath "/dev/input/event*"
+        Driver "libinput"
+        Option "Tapping" "on"
+        Option "DisableWhileTyping" "on"
+EndSection' >> /etc/X11/xorg.conf.d/50-libinput.conf
+}
+
 main_install() {
     msg "Starting installation and configuration."
     sleep 2
