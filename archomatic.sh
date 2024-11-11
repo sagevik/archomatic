@@ -233,6 +233,8 @@ main_install() {
     install_configs
 
     install_scripts
+
+    install_touchpad_tap
 }
 
 
