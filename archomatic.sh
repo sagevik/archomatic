@@ -190,6 +190,7 @@ install_configs() {
 
 install_scripts() {
     msg "Installing scripts"
+    cd ~/
     git clone https://github.com/sagevik/scripts.git
     cd ~/scripts
     sudo ./install.sh
