@@ -76,6 +76,7 @@ install_utils_and_applications() {
 
     PKGS=(
             'git'
+            'vim'
             'gvfs'
             'pacman-contrib'
             'polkit-gnome'
