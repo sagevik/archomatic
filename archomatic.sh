@@ -200,14 +200,6 @@ install_scripts() {
 install_touchpad_tap() {
     msg "Configuring tap to click"
     sudo ~/archomatic/./install_touchpad_conf.sh
-#sudo echo 'Section "InputClass"
-#        Identifier "libinput touchpad catchall"
-#        MatchIsTouchpad "on"
-#        MatchDevicePath "/dev/input/event*"
-#        Driver "libinput"
-#        Option "Tapping" "on"
-#        Option "DisableWhileTyping" "on"
-#EndSection' > /etc/X11/xorg.conf.d/50-libinput.conf
 }
 
 main_install() {
