@@ -78,6 +78,7 @@ install_utils_and_applications() {
             'git'
             'gvfs'
             'pacman-contrib'
+            'polkit-gnome'
             'bash-completion'
             'bluez'
             'bluez-utils'
