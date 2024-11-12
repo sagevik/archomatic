@@ -266,8 +266,8 @@ main_install() {
 
 
     # AUR helper and packages
-    install_yay
-    install_yay_packages
+    #install_yay
+    #install_yay_packages
 
     install_fonts
 
