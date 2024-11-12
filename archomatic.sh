@@ -217,11 +217,11 @@ main_install() {
     install_touchpad_tap
 
     # AUR stuff
-    install_yay
-    install_audio_mixer
-    install_jottacloud_cli
-    install_brave_browser
-    install_joplin
+    #install_yay
+    #install_audio_mixer
+    #install_jottacloud_cli
+    #install_brave_browser
+    #install_joplin
 
     install_fonts
 
