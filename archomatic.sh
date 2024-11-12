@@ -101,6 +101,7 @@ install_utils_and_applications() {
             'polkit-gnome'
             'tlp'
             'tlp-rdw'
+            'curl'
             'bash-completion'
             'bluez'
             'bluez-utils'
@@ -232,6 +233,12 @@ install_yay_packages() {
 }
 #--------------------------------------
 
+install_default_wallpaper() {
+    curl -LO https://github.com/sagevik/wallpapers/blob/main/moss.jpg
+    mkdir -p ~/.local/share/background
+    mv moss.jpg ~/.local/share/background/wp.jpg
+}
+
 main_install() {
     clear
     msg_intro
@@ -267,6 +274,8 @@ main_install() {
     # Additional configuration and optional installs
 
     #setup_config_bare_repo
+
+    install_default_wallpaper
 
     configure_touchpad_tap
 }
