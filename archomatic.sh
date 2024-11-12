@@ -234,7 +234,7 @@ install_yay_packages() {
 #--------------------------------------
 
 install_default_wallpaper() {
-    curl -LO https://raw.githubusercontent.com/mygithub/wallpapers/main/image.jpg
+    curl -LO https://raw.githubusercontent.com/sagevik/wallpapers/main/moss.jpg
     mkdir -p ~/.local/share/background
     mv moss.jpg ~/.local/share/background/wp.jpg
 }
