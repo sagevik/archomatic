@@ -62,7 +62,7 @@ install_timeshift() {
     sudo pacman -S timeshift --noconfirm --needed
 
     # Set up Timeshift to use btrfs
-    sudo timeshift --create --btrfs --comments "Initial system snapshot" --tags "root"
+    sudo timeshift --create
 
     msg "Timeshift installation and initial snapshot completed"
 }
