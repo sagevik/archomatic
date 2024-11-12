@@ -289,7 +289,7 @@ main_install() {
 
     install_fonts
 
-    setup_config_bare_repo
+    #setup_config_bare_repo
 }
 
 
