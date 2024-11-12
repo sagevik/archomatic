@@ -8,6 +8,28 @@ GRN="\e[1;32m"
 CYAN="\e[1;36m"
 RST="\e[0m"
 
+# Introductory disclaimer
+msg_intro() {
+    echo -e "${CYAN}--------------------------------------------${RST}"
+    echo -e "${GRN}   Arch Linux Setup Script by sagevik${RST}"
+    echo -e "${CYAN}--------------------------------------------${RST}"
+    echo -e "${RED}This script is provided as-is, with no guarantees."
+    echo -e "Use of this script is at your own risk, and the author"
+    echo -e "assumes no responsibility for any issues that may arise.${RST}"
+    echo -e "${CYAN}--------------------------------------------${RST}"
+    echo
+}
+
+# Confirmation prompt
+confirm_continue() {
+    read -rp "Do you want to continue with the installation? (yes/no): " response
+    case "$response" in
+        [Yy][Ee][Ss]) echo -e "${GRN}Continuing with the installation...${RST}" ;;
+        *) echo -e "${RED}Installation aborted by user.${RST}" ; exit ;;
+    esac
+}
+
+
 is_root() {
     [ "$EUID" = 0 ] && msg "Please run script as user NOT as root" RED && exit
 }
@@ -199,6 +221,11 @@ install_yay_packages() {
 #--------------------------------------
 
 main_install() {
+    clear
+    msg_intro
+    confirm_continue
+
+    clear
     msg "Starting installation and configuration."
     sleep 2
 
@@ -208,6 +235,7 @@ main_install() {
     # Ensure up-to-date system
     sudo pacman -Syu --noconfirm
 
+    # Packages installations
     install_xorg_packages
     install_utils_and_applications
     install_suckless_tools
@@ -215,13 +243,16 @@ main_install() {
     install_scripts
 
 
-    # AUR stuff
+    # AUR helper and packages
     install_yay
     install_yay_packages
 
     install_fonts
 
-    setup_config_bare_repo
+    # Additional configuration and optional installs
+
+    #setup_config_bare_repo
+
     configure_touchpad_tap
 }
 
