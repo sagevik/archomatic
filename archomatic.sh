@@ -179,12 +179,7 @@ install_slock() {
 install_configs() {
     msg "Installing configs"
     cd ~/
-    # clone config repo and set up as bare repo
-    git clone --bare https://github.com/sagevik/config.git $HOME/config
-    source .bashrc
-    cfg checkout
-    cfg config --local status.showUntrackedFiles no
-
+    git clone https://github.com/sagevik/config.git
     cd ~/config
     cp .bashrc ~/.bashrc
     cp .bash_profile ~/.bash_profile
@@ -192,6 +187,19 @@ install_configs() {
     cp .xinitrc ~/.xinitrc
     cd ~/config/.config
     cp -r * ~/.config/
+    cd ~/
+    rm -rf config
+    msg "Done"
+}
+
+setup_config_bare_repo() {
+    msg "Installing configs"
+    cd ~/
+    # clone config repo and set up as bare repo
+    git clone --bare https://github.com/sagevik/config.git $HOME/config
+    source .bashrc
+    cfg checkout
+    cfg config --local status.showUntrackedFiles no
     msg "Done"
 }
 
@@ -269,18 +277,19 @@ main_install() {
     install_touchpad_tap
 
     # AUR stuff
-    install_yay
+    #install_yay
 
-    install_audio_mixer
+    #install_audio_mixer
 
-    install_jottacloud_cli
+    #install_jottacloud_cli
 
-    install_brave_browser
+    #install_brave_browser
 
-    install_joplin
+    #install_joplin
 
     install_fonts
 
+    setup_config_bare_repo
 }
 
 
