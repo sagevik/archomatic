@@ -55,6 +55,18 @@ install_packages() {
      msg "Done installing $1 packages"
 }
 
+install_timeshift() {
+    msg "Installing Timeshift"
+
+    # Install Timeshift
+    sudo pacman -S timeshift --noconfirm --needed
+
+    # Set up Timeshift to use btrfs
+    sudo timeshift --create --btrfs --comments "Initial system snapshot" --tags "root"
+
+    msg "Timeshift installation and initial snapshot completed"
+}
+
 install_xorg_packages() {
     local pkgs=(
             'xorg-server'
@@ -234,6 +246,9 @@ main_install() {
 
     # Ensure up-to-date system
     sudo pacman -Syu --noconfirm
+
+    # Install Timeshift and create an initial snapshot
+    install_timeshift
 
     # Packages installations
     install_xorg_packages
