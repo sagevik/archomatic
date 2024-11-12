@@ -1,7 +1,10 @@
-ArchSetup - setup script for Arch Linux - CURRENTLY WORK IN PROGRESS
+ArchSetup - setup script for Arch Linux
 ============================
 
-run archomatic.sh
+* CURRENTLY WORK IN PROGRESS, USE AT OWN RISK *
+
+cd ~/archomatic
+./archomatic.sh
 
 Requirements
 ------------
