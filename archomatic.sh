@@ -31,7 +31,7 @@ disk_partitioning(){
 
 install_packages() {
      msg "Installing $1 packages"
-     local pkgs0("${!2}")
+     local pkgs=("${!2}")
      for pkg in "${pkgs[@]}"; do
          echo "Installing: ${pkg}"
          sudo pacman -S "$pkg" --noconfirm --needed
