@@ -197,9 +197,8 @@ setup_config_bare_repo() {
     cd ~/
     # clone config repo and set up as bare repo
     git clone --bare https://github.com/sagevik/config.git $HOME/config
-    source .bashrc
-    cfg checkout
-    cfg config --local status.showUntrackedFiles no
+    /usr/bin/git --git-dir=$HOME/config/ --work-tree=$HOME reset --hard
+    /usr/bin/git --git-dir=$HOME/config/ --work-tree=$HOME config --local status.showUntrackedFiles no
     msg "Done"
 }
 
