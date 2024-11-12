@@ -17,12 +17,10 @@ msg() {
     color_var="${2:-GRN}"
     color=$(eval echo "\$$color_var")
 
-    edge=$(echo "$msg" | sed 's/./-/g')
-    #echo "$edge"
-    echo -e "$CYAN$edge"
+    border=$(echo "$msg" | sed 's/./-/g')
+    echo -e "$CYAN$border"
     echo -e "$color$msg"
-    echo -e "$CYAN$edge$RST"
-    #echo "$edge"
+    echo -e "$CYAN$border$RST"
 }
 
 disk_partitioning(){
@@ -31,9 +29,17 @@ disk_partitioning(){
     echo $device
 }
 
-install_xorg_packages() {
-    msg "Installing XORG packages"
+install_packages() {
+     msg "Installing $1 packages"
+     local pkgs0("${!2}")
+     for pkg in "${pkgs[@]}"; do
+         echo "Installing: ${pkg}"
+         sudo pacman -S "$pkg" --noconfirm --needed
+     done
+     msg "Done installing $1 packages"
+}
 
+install_xorg_packages() {
     PKGS=(
             'xorg-server'
             'xorg-apps'
@@ -42,18 +48,10 @@ install_xorg_packages() {
             'mesa'
             'xf86-input-libinput'
     )
-
-    for PKG in "${PKGS[@]}"; do
-        echo "Installing: ${PKG}"
-        sudo pacman -S "$PKG" --noconfirm --needed
-    done
-
-    msg "Done!"
+    install_packages "XORG" PKGS[@]
 }
 
 install_fonts() {
-    msg "Installing fonts"
-
     PKGS=(
             'ttf-hack'
             'ttf-hack-nerd'
@@ -62,24 +60,18 @@ install_fonts() {
             'ttf-font-awesome'
             'noto-fonts-emoji'
     )
-
-    for PKG in "${PKGS[@]}"; do
-        echo "Installing: ${PKG}"
-        sudo pacman -S "$PKG" --noconfirm --needed
-    done
-
-    msg "Done!"
+    install_packages "fonts" PKGS[@]
 }
 
 install_utils_and_applications() {
-    msg "Installing utilities and applications"
-
     PKGS=(
             'git'
             'vim'
             'gvfs'
             'pacman-contrib'
             'polkit-gnome'
+            'tlp'
+            'tlp-rdw'
             'bash-completion'
             'bluez'
             'bluez-utils'
@@ -106,89 +98,47 @@ install_utils_and_applications() {
             'gimp'
             'less'
     )
-
-    for PKG in "${PKGS[@]}"; do
-        echo "Installing: ${PKG}"
-        sudo pacman -S "$PKG" --noconfirm --needed
-    done
-
-    msg "Done!"
+    install_packages "utilities and applications" PKGS[@]
 }
 
-install_tlp() {
-    msg "Installing TLP"
+install_suckless_tools() {
+    msg "Installing Suckless tools"
+    mkdir -p ~/.config/suckless
 
-    PKGS=(
-            'tlp'
-            'tlp-rdw'
+    REPOS=(
+        "dwm"
+        "dmenu"
+        "slstatus"
+        "st"
+        "slock"
     )
 
-    for PKG in "${PKGS[@]}"; do
-        echo "Installing: ${PKG}"
-        sudo pacman -Sy "$PKG" --noconfirm --needed
+    for repo in "${REPOS[@]}"; do
+        cd ~/.config/suckless
+        if [ ! -d "$repo" ]; then
+            git clone "https://github.com/sagevik/$repo.git"
+        else
+            msg "$repo already cloned, pulling latest changes."
+            cd "$repo" && git pull
+        fi
+        cd ~/.config/suckless/"$repo" && sudo make clean install
     done
-
-    msg "Done!"
-}
-
-install_dwm() {
-    msg "Installing dwm"
-    mkdir -p ~/.config/suckless
-    cd ~/.config/suckless
-    git clone https://github.com/sagevik/dwm.git
-    cd ~/.config/suckless/dwm
-    sudo make clean install
-}
-
-install_dmenu() {
-    msg "Installing dmenu"
-    mkdir -p ~/.config/suckless
-    cd ~/.config/suckless
-    git clone https://github.com/sagevik/dmenu.git
-    cd ~/.config/suckless/dmenu
-    sudo make clean install
-}
-
-install_slstatus() {
-    msg "Installing slstatus"
-    mkdir -p ~/.config/suckless
-    cd ~/.config/suckless
-    git clone https://github.com/sagevik/slstatus.git
-    cd ~/.config/suckless/slstatus
-    sudo make clean install
-}
-
-install_st() {
-    msg "Installing st"
-    mkdir -p ~/.config/suckless
-    cd ~/.config/suckless
-    git clone https://github.com/sagevik/st.git
-    cd ~/.config/suckless/st
-    sudo make clean install
-}
-
-install_slock() {
-    msg "Installing slock"
-    mkdir -p ~/.config/suckless
-    cd ~/.config/suckless
-    git clone https://github.com/sagevik/slock.git
-    cd ~/.config/suckless/slock
-    sudo make clean install
+    msg "Done installing Suckless tools"
 }
 
 install_configs() {
     msg "Installing configs"
-    cd ~/
-    git clone https://github.com/sagevik/config.git
-    cd ~/config
-    cp .bashrc ~/.bashrc
-    cp .bash_profile ~/.bash_profile
-    cp .inputrc ~/.inputrc
-    cp .xinitrc ~/.xinitrc
-    cd ~/config/.config
-    cp -r * ~/.config/
-    cd ~/
-    rm -rf config
+
+    git clone https://github.com/sagevik/config.git ~/config
+
+    for file in ~/config/.*; do
+        [ -f "$file" ] && cp -f "$file" ~/
+    done
+
+    cp -rf ~/config/.config/* ~/.config/
+
+    rm -rf ~/config
+
     msg "Done"
 }
 
@@ -204,10 +154,8 @@ setup_config_bare_repo() {
 
 install_scripts() {
     msg "Installing scripts"
-    cd ~/
-    git clone https://github.com/sagevik/scripts.git
-    cd ~/scripts
-    sudo ./install.sh
+    git clone https://github.com/sagevik/scripts.git ~/scripts
+    sudo ~/scripts/./install.sh
 }
 
 install_touchpad_tap() {
@@ -218,11 +166,13 @@ install_touchpad_tap() {
 # AUR stuff
 
 install_yay() {
-    msg "Installing yay aur helper"
-    cd ~/.config
-    git clone https://aur.archlinux.org/yay.git
-    cd ~/.config/yay
-    makepkg -si
+    if ! command -v yay &>/dev/null; then
+        msg "Installing yay aur helper"
+        git clone https://aur.archlinux.org/yay.git ~/.config/yay
+        cd ~/.config/yay && makepkg -si
+    else
+        msg "yay already installed"
+    fi
 }
 
 install_audio_mixer() {
@@ -248,6 +198,7 @@ install_joplin() {
 }
 
 # -------------------------
+
 main_install() {
     msg "Starting installation and configuration."
     sleep 2
@@ -255,36 +206,22 @@ main_install() {
     # if is root then exit
     is_root
 
+    # Ensure up-to-date system
+    sudo pacman -Syu --noconfirm
+
     install_xorg_packages
-
-    install_tlp
-
     install_utils_and_applications
-
-    msg "Installing suckless tools"
-    install_dwm
-    install_dmenu
-    install_slstatus
-    install_st
-    install_slock
-    msg "Done"
-
+    install_suckless_tools
     install_configs
-
     install_scripts
-
     install_touchpad_tap
 
     # AUR stuff
-    #install_yay
-
-    #install_audio_mixer
-
-    #install_jottacloud_cli
-
-    #install_brave_browser
-
-    #install_joplin
+    install_yay
+    install_audio_mixer
+    install_jottacloud_cli
+    install_brave_browser
+    install_joplin
 
     install_fonts
 
