@@ -179,7 +179,12 @@ install_slock() {
 install_configs() {
     msg "Installing configs"
     cd ~/
-    git clone https://github.com/sagevik/config.git
+    # clone config repo and set up as bare repo
+    git clone --bare https://github.com/sagevik/config.git $HOME/config
+    source .bashrc
+    cfg checkout
+    cfg config --local status.showUntrackedFiles no
+
     cd ~/config
     cp .bashrc ~/.bashrc
     cp .bash_profile ~/.bash_profile
