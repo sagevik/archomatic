@@ -23,12 +23,6 @@ msg() {
     echo -e "$CYAN$border$RST"
 }
 
-disk_partitioning(){
-    echo "Which device would you like to partition?:"
-    read -rp "" device
-    echo $device
-}
-
 install_packages() {
      msg "Installing $1 packages"
      local pkgs=("${!2}")
@@ -40,7 +34,7 @@ install_packages() {
 }
 
 install_xorg_packages() {
-    PKGS=(
+    local pkgs=(
             'xorg-server'
             'xorg-apps'
             'xorg-xinit'
@@ -48,11 +42,11 @@ install_xorg_packages() {
             'mesa'
             'xf86-input-libinput'
     )
-    install_packages "XORG" PKGS[@]
+    install_packages "XORG" pkgs[@]
 }
 
 install_fonts() {
-    PKGS=(
+    local pkgs=(
             'ttf-hack'
             'ttf-hack-nerd'
             'ttf-nerd-fonts-symbols'
@@ -60,11 +54,12 @@ install_fonts() {
             'ttf-font-awesome'
             'noto-fonts-emoji'
     )
-    install_packages "fonts" PKGS[@]
+    install_packages "fonts" pkgs[@]
 }
 
 install_utils_and_applications() {
-    PKGS=(
+    local pkgs=(
+            'base-devel'
             'git'
             'vim'
             'gvfs'
@@ -98,7 +93,7 @@ install_utils_and_applications() {
             'gimp'
             'less'
     )
-    install_packages "utilities and applications" PKGS[@]
+    install_packages "utilities and applications" pkgs[@]
 }
 
 install_suckless_tools() {
@@ -158,13 +153,13 @@ install_scripts() {
     sudo ~/scripts/./install.sh
 }
 
-install_touchpad_tap() {
+configure_touchpad_tap() {
     msg "Configuring tap to click"
-    sudo ~/archomatic/./install_touchpad_conf.sh
+    sudo ~/archomatic/./configure_touchpad_conf.sh
 }
 
-# AUR stuff
-
+# Install AUR helper and applications
+#--------------------------------------
 install_yay() {
     if ! command -v yay &>/dev/null; then
         msg "Installing yay aur helper"
@@ -175,29 +170,33 @@ install_yay() {
     fi
 }
 
-install_audio_mixer() {
-    msg "Installing pavucontrol"
-    yay -S pavucontrol-gtk3 --noconfirm
-}
-
 install_jottacloud_cli() {
     msg "Installing Jottacloud-cli"
-    yay -S jotta-cli --noconfirm
+    yay -S jotta-cli --noconfirm --needed
     run_jottad
     loginctl enable-linger $USER
 }
 
-install_brave_browser() {
-    msg "Installing Brave browser"
-    yay -S brave-bin --noconfirm
+install_yay_package() {
+    local package="$1"
+    echo "Installing: $package with yay"
+    yay -S "$package" --noconfirm --nodiffmenu --nocleanmenu --removemake --needed
 }
 
-install_joplin() {
-    msg "Installing Joplin Desktop"
-    yay -S joplin-desktop --noconfirm
-}
+install_yay_packages() {
+    local yay_packages=(
+        "pavucontrol-gtk3"
+        "jotta-cli"
+        "brave-bin"
+        "joplin-desktop"
+        # Add more packages as needed
+    )
 
-# -------------------------
+    for package in "${yay_packages[@]}"; do
+        install_yay_package "$package"
+    done
+}
+#--------------------------------------
 
 main_install() {
     msg "Starting installation and configuration."
@@ -214,18 +213,16 @@ main_install() {
     install_suckless_tools
     install_configs
     install_scripts
-    install_touchpad_tap
+
 
     # AUR stuff
-    #install_yay
-    #install_audio_mixer
-    #install_jottacloud_cli
-    #install_brave_browser
-    #install_joplin
+    install_yay
+    install_yay_packages
 
     install_fonts
 
-    #setup_config_bare_repo
+    setup_config_bare_repo
+    configure_touchpad_tap
 }
 
 
