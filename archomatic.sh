@@ -128,6 +128,7 @@ install_utils_and_applications() {
             'gimp'
             'less'
             'supercollider'
+            'haskell-tidal'
     )
     install_packages "utilities and applications" pkgs[@]
 }
