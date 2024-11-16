@@ -127,6 +127,7 @@ install_utils_and_applications() {
             'chromium'
             'gimp'
             'less'
+            'fzf'
             'supercollider'
             'haskell-tidal'
     )
