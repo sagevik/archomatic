@@ -55,16 +55,28 @@ install_packages() {
      msg "Done installing $1 packages"
 }
 
+
 install_timeshift() {
     msg "Installing Timeshift"
 
-    # Install Timeshift
-    sudo pacman -S timeshift --noconfirm --needed
+    # Prompt for confirmation
+    read -rp "Do you want to install Timeshift and create an initial snapshot? [Y/n] " response
 
-    # Set up Timeshift to use btrfs
-    sudo timeshift --create
+    # Check response (defaults to 'Yes')
+    case "$response" in
+        [nN][oO]|[nN])
+            msg "Skipping Timeshift installation and snapshot creation"
+            ;;
+        *)
+            # Install Timeshift
+            sudo pacman -S timeshift --noconfirm --needed
 
-    msg "Timeshift installation and initial snapshot completed"
+            # Create Timeshift snapshot
+            sudo timeshift --create
+
+            msg "Timeshift installation and initial snapshot completed"
+            ;;
+    esac
 }
 
 install_xorg_packages() {
