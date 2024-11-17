@@ -1,10 +1,17 @@
 ArchSetup - setup script for Arch Linux
-============================
+=======================================
+
+Script for configuring my arch installation.
+
+Will install suckless tools (dwm, dmenu, st, slstatus and slock),
+together with a handfull of other software and tools that I use.
 
 * CURRENTLY WORK IN PROGRESS, USE AT OWN RISK *
 
-cd ~/archomatic
-./archomatic.sh
+How to use:
+1. git clone the repo
+2. cd into archomatic
+3. run ./install.sh
 
 Requirements
 ------------
