@@ -130,7 +130,7 @@ install_utils_and_applications() {
             'mpv'
             'sxiv'
             'maim'
-            'feh'
+            'xwallpaper'
             'qalculate-gtk'
             'zathura'
             'zathura-pdf-poppler'
