@@ -125,7 +125,8 @@ install_utils_and_applications() {
             'lxappearance'
             'picom'
             'dunst'
-            'sxhkd'
+            #'sxhkd' # currently not used. Using keychords in dwm
+            #'screenkeys'
             'ffmpeg'
             'mpv'
             'sxiv'
@@ -140,8 +141,10 @@ install_utils_and_applications() {
             'gimp'
             'less'
             'fzf'
+            'unzip'
             'supercollider'
             'haskell-tidal'
+            'audacity'
     )
     install_packages "utilities and applications" pkgs[@]
 }
