@@ -2,6 +2,8 @@
 
 # My arch setup script
 
+SCRIPT_DIR="$(dirname "$(realpath "$0")")"
+
 # Some colors for output
 RED="\e[1;31m"
 GRN="\e[1;32m"
@@ -212,7 +214,7 @@ install_scripts() {
 
 configure_touchpad_tap() {
     msg "Configuring tap to click"
-    sudo ~/archomatic/./configure_touchpad_conf.sh
+    sudo "$SCRIPT_DIR/./configure_touchpad_conf.sh"
 }
 
 # Install AUR helper and applications
