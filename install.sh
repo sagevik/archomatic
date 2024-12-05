@@ -140,6 +140,7 @@ install_utils_and_applications() {
             'chromium'
             'gimp'
             'less'
+            'tree'
             'fzf'
             'unzip'
             'supercollider'
