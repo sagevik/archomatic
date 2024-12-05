@@ -256,6 +256,8 @@ install_yay_packages() {
 #--------------------------------------
 
 install_wallpapers() {
+    msg "Installing wallpapers"
+
     cd ~/
     mkdir -p ~/pix
 
@@ -290,16 +292,14 @@ main_install() {
     # Packages installations
     install_xorg_packages
     install_utils_and_applications
-    install_suckless_tools
     install_configs
+    install_fonts
     install_scripts
-
+    install_suckless_tools
 
     # AUR helper and packages
     #install_yay
     #install_yay_packages
-
-    install_fonts
 
     # Additional configuration and optional installs
 
