@@ -267,7 +267,7 @@ install_wallpapers() {
         sudo pacman -S --needed --noconfirm ffmpeg
     fi
     mkdir -p ~/.local/share/background
-    ffmpeg -y -i ~/pix/wallpapers/moss.jpg ~/.local/share/background/wp.png
+    ffmpeg -loglevel quiet -y -i ~/pix/wallpapers/moss.jpg ~/.local/share/background/wp.png
 }
 
 
