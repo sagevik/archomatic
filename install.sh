@@ -251,16 +251,19 @@ install_yay_packages() {
 }
 #--------------------------------------
 
-install_default_wallpaper() {
-    curl -LO https://raw.githubusercontent.com/sagevik/wallpapers/main/moss.png
+install_wallpapers() {
+    cd ~/
+    mkdir -p ~/pix
+
+    git clone https://github.com/sagevik/wallpapers.git ~/pix/wallpapers
 
     if ! command -v ffmpeg &> /dev/null; then
         sudo pacman -S --needed --noconfirm ffmpeg
     fi
-    ffmpeg -i moss.jpg moss.png && rm moss.jpg
     mkdir -p ~/.local/share/background
-    mv moss.png ~/.local/share/background/wp.png
+    ffmpeg -y -i ~/pix/wallpapers/moss.jpg ~/.local/share/background/wp.png
 }
+
 
 main_install() {
     clear
@@ -296,11 +299,11 @@ main_install() {
 
     # Additional configuration and optional installs
 
-    #setup_config_bare_repo
-
-    install_default_wallpaper
+    setup_config_bare_repo
 
     configure_touchpad_tap
+
+    install_wallpapers
 }
 
 
