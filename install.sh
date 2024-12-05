@@ -253,6 +253,11 @@ install_yay_packages() {
 
 install_default_wallpaper() {
     curl -LO https://raw.githubusercontent.com/sagevik/wallpapers/main/moss.png
+
+    if ! command -v ffmpeg &> /dev/null; then
+        sudo pacman -S --needed --noconfirm ffmpeg
+    fi
+    ffmpeg -i moss.jpg moss.png && rm moss.jpg
     mkdir -p ~/.local/share/background
     mv moss.png ~/.local/share/background/wp.png
 }
