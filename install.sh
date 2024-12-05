@@ -187,6 +187,9 @@ install_configs() {
 
     rm -rf ~/config
 
+    # install bash.bashrc that points to ~/.config/bash/.bash_profile
+    sudo cp ~/.config/bash/bash.bashrc /etc
+
     msg "Done"
 }
 
