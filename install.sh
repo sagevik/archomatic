@@ -255,6 +255,25 @@ install_yay_packages() {
         install_yay_package "$package"
     done
 }
+
+install_aur_helper_and_packages() {
+    read -rp "Do you want to install Yay AUR helper and AUR packages? [Y/n] " response
+
+    # Check response (defaults to 'Yes')
+    case "$response" in
+        [nN][oO]|[nN])
+            msg "Skipping yay and AUR packages installation"
+            ;;
+        *)
+            msg "Installing yay AUR helper"
+            install_yay
+
+            msg "Installing AUR packages"
+            install_yay_packages
+            ;;
+    esac
+}
+
 #--------------------------------------
 
 install_wallpapers() {
@@ -294,22 +313,24 @@ main_install() {
     # Packages installations
     install_xorg_packages
     install_utils_and_applications
+
+    # Configs, fonts and utility scripts
     install_configs
     install_fonts
     install_scripts
+
+    # Install dwm, dmenu, st, slstatus and slock
     install_suckless_tools
 
-    # AUR helper and packages
-    #install_yay
-    #install_yay_packages
-
     # Additional configuration and optional installs
-
     setup_config_bare_repo
 
     configure_touchpad_tap
 
     install_wallpapers
+
+    # AUR helper and packages
+    install_aur_helper_and_packages
 }
 
 
