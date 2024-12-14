@@ -127,8 +127,7 @@ install_utils_and_applications() {
             'lxappearance'
             'picom'
             'dunst'
-            #'sxhkd' # currently not used. Using keychords in dwm
-            #'screenkeys'
+            'screenkeys'
             'ffmpeg'
             'mpv'
             'sxiv'
