@@ -144,6 +144,7 @@ install_utils_and_applications() {
             'tree'
             'fzf'
             'unzip'
+            'stow'
             'supercollider'
             'haskell-tidal'
             'audacity'
