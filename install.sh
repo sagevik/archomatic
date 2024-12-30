@@ -213,18 +213,24 @@ install_yay() {
         git clone https://aur.archlinux.org/yay.git ~/.config/yay
         cd ~/.config/yay && makepkg -si
     else
-        msg "yay already installed"
+        msg "yay is installed"
     fi
 }
 
 install_jottacloud_cli() {
     msg "Installing Jottacloud-cli"
+    # Ensure yay is installed
+    install_yay
+
     yay -S jotta-cli --noconfirm --needed
     run_jottad
     loginctl enable-linger $USER
 }
 
 install_yay_package() {
+    # Ensure yay is installed
+    install_yay
+
     local package="$1"
     echo "Installing: $package with yay"
     yay -S "$package" --noconfirm --nodiffmenu --nocleanmenu --removemake --needed
@@ -233,7 +239,6 @@ install_yay_package() {
 install_yay_packages() {
     local yay_packages=(
         "pavucontrol-gtk3"
-        "jotta-cli"
         "brave-bin"
         "joplin-desktop"
         # Add more packages as needed
@@ -326,8 +331,11 @@ main_install() {
 
     install_wallpapers
 
-    # AUR helper and packages
+    # Install AUR helper
     install_aur_helper
+    # Install Jotta backup
+    install_jottacloud_cli
+    # AUR packages
     install_aur_packages
 }
 
