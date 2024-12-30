@@ -177,32 +177,20 @@ install_suckless_tools() {
     msg "Done installing Suckless tools"
 }
 
-install_configs() {
-    msg "Installing configs"
+install_dotfiles() {
+    msg "Installing dotfiles"
 
-    git clone https://github.com/sagevik/config.git ~/config
-
-    for file in ~/config/.*; do
-        [ -f "$file" ] && cp -f "$file" ~/
-    done
-
-    cp -rf ~/config/.config/* ~/.config/
-
-    rm -rf ~/config
+    git clone https://github.com/sagevik/dots.git ~/.dots
+    cd ~/.dots
+    # Check if stow is installed
+    if ! command -v stow &> /dev/null; then
+        sudo pacman -S stow --noconfirm --needed
+    fi
+    stow .
 
     # install bash.bashrc that points to ~/.config/bash/.bash_profile
-    sudo cp ~/.config/bash/bash.bashrc /etc
+    sudo cp ~/.dots/bash/bash.bashrc /etc
 
-    msg "Done"
-}
-
-setup_config_bare_repo() {
-    msg "Installing configs"
-    cd ~/
-    # clone config repo and set up as bare repo
-    git clone --bare https://github.com/sagevik/config.git $HOME/config
-    /usr/bin/git --git-dir=$HOME/config/ --work-tree=$HOME reset --hard
-    /usr/bin/git --git-dir=$HOME/config/ --work-tree=$HOME config --local status.showUntrackedFiles no
     msg "Done"
 }
 
@@ -315,7 +303,7 @@ main_install() {
     install_utils_and_applications
 
     # Configs, fonts and utility scripts
-    install_configs
+    install_dotfiles
     install_fonts
     install_scripts
 
@@ -323,8 +311,6 @@ main_install() {
     install_suckless_tools
 
     # Additional configuration and optional installs
-    setup_config_bare_repo
-
     configure_touchpad_tap
 
     install_wallpapers
