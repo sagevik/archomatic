@@ -244,8 +244,8 @@ install_yay_packages() {
     done
 }
 
-install_aur_helper_and_packages() {
-    read -rp "Do you want to install Yay AUR helper and AUR packages? [Y/n] " response
+install_aur_helper() {
+    read -rp "Do you want to install Yay AUR helper? [Y/n] " response
 
     # Check response (defaults to 'Yes')
     case "$response" in
@@ -255,13 +255,24 @@ install_aur_helper_and_packages() {
         *)
             msg "Installing yay AUR helper"
             install_yay
+            ;;
+    esac
+}
 
+install_aur_packages() {
+    read -rp "Do you want to install AUR packages? [Y/n] " response
+
+    # Check response (defaults to 'Yes')
+    case "$response" in
+        [nN][oO]|[nN])
+            msg "Skipping yay and AUR packages installation"
+            ;;
+        *)
             msg "Installing AUR packages"
             install_yay_packages
             ;;
     esac
 }
-
 #--------------------------------------
 
 install_wallpapers() {
@@ -316,7 +327,8 @@ main_install() {
     install_wallpapers
 
     # AUR helper and packages
-    install_aur_helper_and_packages
+    install_aur_helper
+    install_aur_packages
 }
 
 
