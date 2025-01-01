@@ -149,6 +149,7 @@ install_utils_and_applications() {
             'supercollider'
             'haskell-tidal'
             'audacity'
+	    'zoxide'
     )
     install_packages "utilities and applications" pkgs[@]
 }
