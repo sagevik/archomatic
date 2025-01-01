@@ -130,6 +130,7 @@ install_utils_and_applications() {
             'screenkeys'
             'ffmpeg'
             'mpv'
+	    'neovim'
             'sxiv'
             'maim'
             'xwallpaper'
