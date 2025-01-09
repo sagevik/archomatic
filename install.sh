@@ -150,6 +150,7 @@ install_utils_and_applications() {
         'haskell-tidal'
         'audacity'
 	    'zoxide'
+        'ufw'
     )
     install_packages "utilities and applications" pkgs[@]
 }
