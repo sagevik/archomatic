@@ -127,7 +127,7 @@ install_utils_and_applications() {
         'lxappearance'
         'picom'
         'dunst'
-        'screenkeys'
+        'screenkey'
         'ffmpeg'
         'mpv'
         'neovim'
