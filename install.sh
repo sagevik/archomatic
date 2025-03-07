@@ -129,6 +129,7 @@ install_utils_and_applications() {
         'dunst'
         'screenkey'
         'ffmpeg'
+        'fwupd'
         'mpv'
         'neovim'
         'sxiv'
@@ -150,7 +151,7 @@ install_utils_and_applications() {
         'supercollider'
         'haskell-tidal'
         'audacity'
-	    'zoxide'
+        'zoxide'
         'ufw'
     )
     install_packages "utilities and applications" pkgs[@]
