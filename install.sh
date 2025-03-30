@@ -185,13 +185,28 @@ install_suckless_tools() {
 install_dotfiles() {
     msg "Installing dotfiles"
 
+    DOTS=(
+        "bash"
+        "dunst"
+        "fastfetch"
+        "kitty"
+        "mpv"
+        "picom"
+        "tmux"
+        "x"
+        "yazi"
+        "zsh"
+    )
+
     git clone https://github.com/sagevik/dots.git ~/.dots
     cd ~/.dots
     # Check if stow is installed
     if ! command -v stow &> /dev/null; then
         sudo pacman -S stow --noconfirm --needed
     fi
-    stow .
+    for dot in "${DOTS[@]}"; do
+        stow "$dot"
+    done
 
     # install bash.bashrc that points to ~/.config/bash/.bash_profile
     sudo cp ~/.dots/bash/bash.bashrc /etc
