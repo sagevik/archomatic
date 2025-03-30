@@ -213,6 +213,10 @@ install_dotfiles() {
     # install bash.bashrc that points to ~/.config/bash/.bash_profile
     sudo cp ~/.dots/bash/bash.bashrc /etc
 
+    # create history file for zsh
+    mkdir -p "$HOME/.cache/zsh"
+    touch "$HOME/.cache/zsh/history"
+
     msg "Done"
 }
 
@@ -230,12 +234,6 @@ configure_touchpad_tap() {
 create_dwm_desktop_file() {
     # Define the target file path
     local file="/usr/share/xsessions/dwm.desktop"
-
-    # Check if we have permission to write to the location
-    # if [ ! -w "/usr/share/xsessions" ]; then
-    #     echo "Error: Need sudo privileges to write to $file"
-    #     return 1
-    # fi
 
     # Create/overwrite the file with the specified content
     sudo bash -c "cat > "$file" << 'EOF'
