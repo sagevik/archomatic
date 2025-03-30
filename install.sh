@@ -146,7 +146,6 @@ install_utils_and_applications() {
         'tree'
         'fzf'
         'unzip'
-        'sddm'
         'stow'
         'supercollider'
         'haskell-tidal'
