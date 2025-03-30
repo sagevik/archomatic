@@ -153,6 +153,9 @@ install_utils_and_applications() {
         'audacity'
         'zoxide'
         'ufw'
+        'kitty'
+        'zsh'
+        'uv'
     )
     install_packages "utilities and applications" pkgs[@]
 }
@@ -223,6 +226,35 @@ install_scripts() {
 configure_touchpad_tap() {
     msg "Configuring tap to click"
     sudo "$SCRIPT_DIR/./configure_touchpad_conf.sh"
+}
+
+create_dwm_desktop_file() {
+    # Define the target file path
+    local file="/usr/share/xsessions/dwm.desktop"
+
+    # Check if we have permission to write to the location
+    # if [ ! -w "/usr/share/xsessions" ]; then
+    #     echo "Error: Need sudo privileges to write to $file"
+    #     return 1
+    # fi
+
+    # Create/overwrite the file with the specified content
+    sudo cat > "$file" << 'EOF'
+[Desktop Entry]
+Encoding=UTF-8
+Name=dwm
+Comment=Dynamic window manager
+Exec=/home/user/scripts/autostart.sh
+Icon=dwm
+Type=XSession
+EOF
+
+    # Check if the file was created successfully
+    if [ $? -eq 0 ]; then
+        echo "Successfully created $file"
+    else
+        echo "Error creating $file"
+    fi
 }
 
 # Install AUR helper and applications
@@ -345,6 +377,8 @@ main_install() {
 
     # Install dwm, dmenu, st, slstatus and slock
     install_suckless_tools
+
+    create_dwm_desktop_file
 
     # Additional configuration and optional installs
     configure_touchpad_tap
