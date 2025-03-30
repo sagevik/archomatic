@@ -238,7 +238,7 @@ create_dwm_desktop_file() {
     # fi
 
     # Create/overwrite the file with the specified content
-    sudo cat > "$file" << 'EOF'
+    sudo bash -c "cat > "$file" << 'EOF'
 [Desktop Entry]
 Encoding=UTF-8
 Name=dwm
@@ -246,7 +246,7 @@ Comment=Dynamic window manager
 Exec=/home/user/scripts/autostart.sh
 Icon=dwm
 Type=XSession
-EOF
+EOF"
 
     # Check if the file was created successfully
     if [ $? -eq 0 ]; then
