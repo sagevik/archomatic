@@ -243,7 +243,7 @@ create_dwm_desktop_file() {
 Encoding=UTF-8
 Name=dwm
 Comment=Dynamic window manager
-Exec=/home/user/scripts/autostart.sh
+Exec=/home/rs/scripts/autostart.sh
 Icon=dwm
 Type=XSession
 EOF"
