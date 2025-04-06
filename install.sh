@@ -155,6 +155,8 @@ install_utils_and_applications() {
         'kitty'
         'zsh'
         'uv'
+        'inotify-tools'
+        'grub-btrfs'
     )
     install_packages "utilities and applications" pkgs[@]
 }
