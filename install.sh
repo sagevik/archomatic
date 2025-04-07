@@ -157,6 +157,7 @@ install_utils_and_applications() {
         'uv'
         'inotify-tools'
         'grub-btrfs'
+        'gdu'
     )
     install_packages "utilities and applications" pkgs[@]
 }
