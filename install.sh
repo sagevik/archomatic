@@ -132,7 +132,7 @@ install_utils_and_applications() {
         'fwupd'
         'mpv'
         'neovim'
-        'sxiv'
+        'nsxiv'
         'maim'
         'xwallpaper'
         'qalculate-gtk'
