@@ -166,6 +166,7 @@ install_utils_and_applications() {
         'unzip'
         'uv'
         'vim'
+        'xclip'
         'xwallpaper'
         'zathura'
         'zathura-pdf-poppler'
