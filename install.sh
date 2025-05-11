@@ -107,6 +107,7 @@ install_fonts() {
 
 install_utils_and_applications() {
     local pkgs=(
+	'7zip'
         'arandr'
         'audacity'
         'base-devel'
@@ -119,6 +120,7 @@ install_utils_and_applications() {
         'brightnessctl'
         'curl'
         'dunst'
+	'fd'
         'ffmpeg'
         'fwupd'
         'fzf'
@@ -129,6 +131,8 @@ install_utils_and_applications() {
         'gvfs'
         'haskell-tidal'
         'inotify-tools'
+	'imagemagick'
+	'jq'
         'kitty'
         'less'
         'libgnome-keyring'
@@ -147,6 +151,7 @@ install_utils_and_applications() {
         'python-setuptools'
         'python-yaml'
         'qalculate-gtk'
+	'ripgrep'
         'screenkey'
         'sddm'
         'stow'
@@ -301,6 +306,7 @@ install_aur_packages_with_yay() {
         "brave-bin"
         "optimus-manager-git"
         "pavucontrol-gtk3"
+	"yazi"
         # "joplin-desktop"
         # Add more packages as needed
     )
