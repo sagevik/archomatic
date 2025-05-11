@@ -107,57 +107,62 @@ install_fonts() {
 
 install_utils_and_applications() {
     local pkgs=(
+        'arandr'
+        'audacity'
         'base-devel'
-        'git'
-        'vim'
-        'gvfs'
-        'pacman-contrib'
-        'polkit-gnome'
-        'tlp'
-        'tlp-rdw'
-        'curl'
         'bash-completion'
+        'bat'
+        'bitwarden'
+        'blueman'
         'bluez'
         'bluez-utils'
-        'blueman'
-        'networkmanager'
-        'network-manager-applet'
         'brightnessctl'
-        'arandr'
-        'lxappearance'
-        'picom'
+        'curl'
         'dunst'
-        'screenkey'
         'ffmpeg'
         'fwupd'
-        'mpv'
-        'neovim'
-        'nsxiv'
-        'maim'
-        'xwallpaper'
-        'qalculate-gtk'
-        'zathura'
-        'zathura-pdf-poppler'
-        'bitwarden'
-        'nemo'
-        'chromium'
-        'gimp'
-        'less'
-        'tree'
         'fzf'
-        'unzip'
+        'gdu'
+        'gimp'
+        'git'
+        'grub-btrfs'
+        'gvfs'
+        'haskell-tidal'
+        'inotify-tools'
+        'kitty'
+        'less'
+        'libgnome-keyring'
+        'lxappearance'
+        'maim'
+        'man-db'
+        'mpv'
+        'nemo'
+        'neovim'
+        'network-manager-applet'
+        'networkmanager'
+        'nsxiv'
+        'pacman-contrib'
+        'picom'
+        'polkit-gnome'
+        'python-setuptools'
+        'python-yaml'
+        'qalculate-gtk'
+        'screenkey'
         'stow'
         'supercollider'
-        'haskell-tidal'
-        'audacity'
-        'zoxide'
+        'tlp'
+        'tlp-rdw'
+        'tmux'
+        'tree'
         'ufw'
-        'kitty'
-        'zsh'
+        'unzip'
         'uv'
-        'inotify-tools'
-        'grub-btrfs'
-        'gdu'
+        'vim'
+        'xwallpaper'
+        'zathura'
+        'zathura-pdf-poppler'
+        'zoxide'
+        'zsh' 
     )
     install_packages "utilities and applications" pkgs[@]
 }
@@ -192,6 +197,7 @@ install_dotfiles() {
 
     DOTS=(
         "bash"
+        "bat"
         "dunst"
         "fastfetch"
         "kitty"
@@ -200,11 +206,12 @@ install_dotfiles() {
         "tmux"
         "x"
         "yazi"
+        "zathura"
         "zsh"
     )
 
-    git clone https://github.com/sagevik/dots.git ~/.dots
-    cd ~/.dots
+    git clone https://github.com/sagevik/dots.git ~/dots
+    cd ~/dots
     # Check if stow is installed
     if ! command -v stow &> /dev/null; then
         sudo pacman -S stow --noconfirm --needed
@@ -214,7 +221,7 @@ install_dotfiles() {
     done
 
     # install bash.bashrc that points to ~/.config/bash/.bash_profile
-    sudo cp ~/.dots/bash/bash.bashrc /etc
+    sudo cp ~/dots/bash/bash.bashrc /etc
 
     # create history file for zsh
     mkdir -p "$HOME/.cache/zsh"
@@ -285,14 +292,14 @@ install_yay_package() {
 
     local package="$1"
     echo "Installing: $package with yay"
-    yay -S "$package" --noconfirm --nodiffmenu --nocleanmenu --removemake --needed
+    yay -S "$package" --noconfirm --removemake --needed
 }
 
 install_yay_packages() {
     local yay_packages=(
-        "pavucontrol-gtk3"
         "brave-bin"
-        "joplin-desktop"
+        "pavucontrol-gtk3"
+        # "joplin-desktop"
         # Add more packages as needed
     )
 
@@ -366,14 +373,17 @@ main_install() {
     # Install Timeshift and create an initial snapshot
     install_timeshift
 
+    # Install AUR helper
+    install_aur_helper
+
     # Packages installations
     install_xorg_packages
     install_utils_and_applications
 
     # Configs, fonts and utility scripts
+    install_scripts
     install_dotfiles
     install_fonts
-    install_scripts
 
     # Install dwm, dmenu, st, slstatus and slock
     install_suckless_tools
@@ -385,8 +395,6 @@ main_install() {
 
     install_wallpapers
 
-    # Install AUR helper
-    install_aur_helper
     # Install Jotta backup
     install_jottacloud_cli
     # AUR packages
