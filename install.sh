@@ -299,6 +299,7 @@ install_package_with_yay() {
 install_aur_packages_with_yay() {
     local yay_packages=(
         "brave-bin"
+        "optimus-manager-git"
         "pavucontrol-gtk3"
         # "joplin-desktop"
         # Add more packages as needed
@@ -360,6 +361,13 @@ enable_services() {
     sudo systemctl enable sddm.service
     # enable bluetooth
     sudo systemctl enable bluetooth.service
+    # enable optimus manager for graphics switching
+    sudo systemctl enable optimus-manager.service
+}
+
+modify_optimus_conf() {
+    # set gpu mode to auto
+    sudo sed 's/startup_mode=nvidia/startup_mode=auto/' /usr/share/optimus-manager/optimus-manager.conf > /etc/optimus-manager/optimus-manager.conf
 }
 
 
@@ -409,6 +417,8 @@ main_install() {
     install_aur_packages
 
     enable_services
+
+    modify_optimus_conf
 }
 
 
