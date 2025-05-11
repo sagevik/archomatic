@@ -26,11 +26,13 @@ msg_intro() {
 confirm_continue() {
     read -rp "Do you want to continue with the installation? (yes/no): " response
     case "$response" in
-        [Yy][Ee][Ss]) echo -e "${GRN}Continuing with the installation...${RST}" ;;
-        *) echo -e "${RED}Installation aborted by user.${RST}" ; exit ;;
+    [Yy][Ee][Ss]) echo -e "${GRN}Continuing with the installation...${RST}" ;;
+    *)
+        echo -e "${RED}Installation aborted by user.${RST}"
+        exit
+        ;;
     esac
 }
-
 
 is_root() {
     [ "$EUID" = 0 ] && msg "Please run script as user NOT as root" RED && exit
@@ -48,15 +50,14 @@ msg() {
 }
 
 install_packages() {
-     msg "Installing $1 packages"
-     local pkgs=("${!2}")
-     for pkg in "${pkgs[@]}"; do
-         echo "Installing: ${pkg}"
-         sudo pacman -S "$pkg" --noconfirm --needed
-     done
-     msg "Done installing $1 packages"
+    msg "Installing $1 packages"
+    local pkgs=("${!2}")
+    for pkg in "${pkgs[@]}"; do
+        echo "Installing: ${pkg}"
+        sudo pacman -S "$pkg" --noconfirm --needed
+    done
+    msg "Done installing $1 packages"
 }
-
 
 install_timeshift() {
     msg "Installing Timeshift"
@@ -66,18 +67,18 @@ install_timeshift() {
 
     # Check response (defaults to 'Yes')
     case "$response" in
-        [nN][oO]|[nN])
-            msg "Skipping Timeshift installation and snapshot creation"
-            ;;
-        *)
-            # Install Timeshift
-            sudo pacman -S timeshift --noconfirm --needed
+    [nN][oO] | [nN])
+        msg "Skipping Timeshift installation and snapshot creation"
+        ;;
+    *)
+        # Install Timeshift
+        sudo pacman -S timeshift --noconfirm --needed
 
-            # Create Timeshift snapshot
-            sudo timeshift --create
+        # Create Timeshift snapshot
+        sudo timeshift --create
 
-            msg "Timeshift installation and initial snapshot completed"
-            ;;
+        msg "Timeshift installation and initial snapshot completed"
+        ;;
     esac
 }
 
@@ -107,7 +108,7 @@ install_fonts() {
 
 install_utils_and_applications() {
     local pkgs=(
-	'7zip'
+        '7zip'
         'arandr'
         'audacity'
         'base-devel'
@@ -120,7 +121,7 @@ install_utils_and_applications() {
         'brightnessctl'
         'curl'
         'dunst'
-	'fd'
+        'fd'
         'ffmpeg'
         'fwupd'
         'fzf'
@@ -131,8 +132,8 @@ install_utils_and_applications() {
         'gvfs'
         'haskell-tidal'
         'inotify-tools'
-	'imagemagick'
-	'jq'
+        'imagemagick'
+        'jq'
         'kitty'
         'less'
         'libgnome-keyring'
@@ -142,6 +143,7 @@ install_utils_and_applications() {
         'mpv'
         'nemo'
         'neovim'
+        'npm'
         'network-manager-applet'
         'networkmanager'
         'nsxiv'
@@ -151,7 +153,7 @@ install_utils_and_applications() {
         'python-setuptools'
         'python-yaml'
         'qalculate-gtk'
-	'ripgrep'
+        'ripgrep'
         'screenkey'
         'sddm'
         'stow'
@@ -168,7 +170,7 @@ install_utils_and_applications() {
         'zathura'
         'zathura-pdf-poppler'
         'zoxide'
-        'zsh' 
+        'zsh'
     )
     install_packages "utilities and applications" pkgs[@]
 }
@@ -219,7 +221,7 @@ install_dotfiles() {
     git clone https://github.com/sagevik/dots.git ~/dots
     cd ~/dots
     # Check if stow is installed
-    if ! command -v stow &> /dev/null; then
+    if ! command -v stow &>/dev/null; then
         sudo pacman -S stow --noconfirm --needed
     fi
     for dot in "${DOTS[@]}"; do
@@ -306,7 +308,7 @@ install_aur_packages_with_yay() {
         "brave-bin"
         "optimus-manager-git"
         "pavucontrol-gtk3"
-	"yazi"
+        "yazi"
         # "joplin-desktop"
         # Add more packages as needed
     )
@@ -321,13 +323,13 @@ install_aur_helper() {
 
     # Check response (defaults to 'Yes')
     case "$response" in
-        [nN][oO]|[nN])
-            msg "Skipping yay and AUR packages installation"
-            ;;
-        *)
-            msg "Installing yay AUR helper"
-            install_yay
-            ;;
+    [nN][oO] | [nN])
+        msg "Skipping yay and AUR packages installation"
+        ;;
+    *)
+        msg "Installing yay AUR helper"
+        install_yay
+        ;;
     esac
 }
 
@@ -336,13 +338,13 @@ install_aur_packages() {
 
     # Check response (defaults to 'Yes')
     case "$response" in
-        [nN][oO]|[nN])
-            msg "Skipping yay and AUR packages installation"
-            ;;
-        *)
-            msg "Installing AUR packages"
-           install_aur_packages_with_yay
-            ;;
+    [nN][oO] | [nN])
+        msg "Skipping yay and AUR packages installation"
+        ;;
+    *)
+        msg "Installing AUR packages"
+        install_aur_packages_with_yay
+        ;;
     esac
 }
 #--------------------------------------
@@ -355,7 +357,7 @@ install_wallpapers() {
 
     git clone https://github.com/sagevik/wallpapers.git ~/pix/wallpapers
 
-    if ! command -v ffmpeg &> /dev/null; then
+    if ! command -v ffmpeg &>/dev/null; then
         sudo pacman -S --needed --noconfirm ffmpeg
     fi
     mkdir -p ~/.local/share/background
@@ -373,9 +375,8 @@ enable_services() {
 
 modify_optimus_conf() {
     # set gpu mode to auto
-    sudo sed 's/startup_mode=nvidia/startup_mode=auto/' /usr/share/optimus-manager/optimus-manager.conf > /etc/optimus-manager/optimus-manager.conf
+    sudo sed 's/startup_mode=nvidia/startup_mode=auto/' /usr/share/optimus-manager/optimus-manager.conf >/etc/optimus-manager/optimus-manager.conf
 }
-
 
 main_install() {
     clear
@@ -426,7 +427,6 @@ main_install() {
 
     modify_optimus_conf
 }
-
 
 main_install
 
