@@ -148,6 +148,7 @@ install_utils_and_applications() {
         'python-yaml'
         'qalculate-gtk'
         'screenkey'
+        'sddm'
         'stow'
         'supercollider'
         'tlp'
@@ -286,7 +287,7 @@ install_jottacloud_cli() {
     loginctl enable-linger $USER
 }
 
-install_yay_package() {
+install_package_with_yay() {
     # Ensure yay is installed
     install_yay
 
@@ -295,7 +296,7 @@ install_yay_package() {
     yay -S "$package" --noconfirm --removemake --needed
 }
 
-install_yay_packages() {
+install_aur_packages_with_yay() {
     local yay_packages=(
         "brave-bin"
         "pavucontrol-gtk3"
@@ -304,7 +305,7 @@ install_yay_packages() {
     )
 
     for package in "${yay_packages[@]}"; do
-        install_yay_package "$package"
+        install_package_with_yay "$package"
     done
 }
 
@@ -333,7 +334,7 @@ install_aur_packages() {
             ;;
         *)
             msg "Installing AUR packages"
-            install_yay_packages
+           install_aur_packages_with_yay
             ;;
     esac
 }
@@ -352,6 +353,13 @@ install_wallpapers() {
     fi
     mkdir -p ~/.local/share/background
     ffmpeg -loglevel quiet -y -i ~/pix/wallpapers/moss.jpg ~/.local/share/background/wp.png
+}
+
+enable_services() {
+    # enable display manager
+    sudo systemctl enable sddm.service
+    # enable bluetooth
+    sudo systemctl enable bluetooth.service
 }
 
 
@@ -399,6 +407,8 @@ main_install() {
     install_jottacloud_cli
     # AUR packages
     install_aur_packages
+
+    enable_services
 }
 
 
